@@ -1,6 +1,6 @@
 {
-  "name": "generate",
-  "version": "0.0.0",
+  "name": "SimpleSteps",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -11,7 +11,25 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "jade": "~1.11.0",
+    "mongoose": "^4.9.2",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "description": "Project SimpleSteps",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/somesh955/SimpleSteps.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "MongoDB"
+  ],
+  "author": "Somesh Singh",
+  "license": "somesh955@gmail.com",
+  "bugs": {
+    "url": "https://github.com/somesh955/SimpleSteps/issues"
+  },
+  "homepage": "https://github.com/somesh955/SimpleSteps"
 }
