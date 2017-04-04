@@ -1,0 +1,37 @@
+{
+  "name": "SimpleSteps",
+  "description": "front libray collection",
+  "main": "app.js",
+  "authors": [
+    "Somesh Singh"
+  ],
+  "license": "somesh955@gmail.com",
+  "keywords": [
+    "Simple",
+    "AngularJS",
+    "ExpressJs",
+    "NodeJs",
+    "application"
+  ],
+  "homepage": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-bootstrap": "^2.0.1",
+    "angular-loading-bar": "^0.9.0",
+    "angular-material": "^1.0.9",
+    "angular-resource": "^1.5.8",
+    "angular-ui-grid": "angular-grid#^3.2.1",
+    "angular-file-upload": "^2.3.4",
+    "angular-local-storage": "^0.3.0",
+    "lazyload": "^3.2.2",
+    "angular-route": "^1.5.8",
+    "bootstrap": "^3.3.7"
+  }
+}
