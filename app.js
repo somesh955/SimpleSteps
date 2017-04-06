@@ -1,14 +1,31 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var routes = require('./server/routes/index');
-var users = require('./server/routes/users');
+const multer = require('multer')
+const passport = require('passport')  
+const session = require('express-session');
+//const RedisStore = require('connect-redis')(session)
 
-var app = express();
+const app = express(); 
+/*app.use(session({  
+  store: new RedisStore({
+    url: config.redisStore.url
+  }),
+  secret: config.redisStore.secret,
+  resave: false,
+  saveUninitialized: false
+}))*/
+app.use(passport.initialize()) ;
+app.use(passport.session());
+
+const routes = require('./server/routes/index');
+const users = require('./server/routes/users');
+require('./server/config/passport')(passport);
+var upload = multer({dest: 'uploads/'});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'server/views'));
