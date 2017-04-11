@@ -4,28 +4,30 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
-const multer = require('multer')
-const passport = require('passport')  
+const expressJWT = require('express-jwt');
+const multer = require('multer');
 const session = require('express-session');
 //const RedisStore = require('connect-redis')(session)
-
+const config = require('./server/config/index').config;
 const app = express(); 
-/*app.use(session({  
-  store: new RedisStore({
+
+var DIR = './uploads/';
+ 
+var upload = multer({dest: DIR});
+
+app.use(session({  
+ /* store: new RedisStore({
     url: config.redisStore.url
-  }),
-  secret: config.redisStore.secret,
+  }),*/
+  secret: config.redisStore.SECRET,
   resave: false,
   saveUninitialized: false
-}))*/
-app.use(passport.initialize()) ;
-app.use(passport.session());
+}))
 
+process.env.PORT = config.server.PORT;
 const routes = require('./server/routes/index');
-const users = require('./server/routes/users');
-require('./server/config/passport')(passport);
-var upload = multer({dest: 'uploads/'});
+const auth = require('./server/routes/users')(upload);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'server/views'));
@@ -38,9 +40,27 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', routes);
-app.use('/users', users);
+app.use(expressJWT({secret:"SOMESH@955"}).unless({"path":["/v1/api/authenticate"]}));
+app.use(multer({
+  dest: DIR,
+  rename: function (fieldname, filename) {
+    return filename + Date.now();
+  },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...');
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path);
+  }
+}).any());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization");
+  next();
+});
+//app.use('/', routes);
+app.use('/v1/api/', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
